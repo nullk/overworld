@@ -3,7 +3,6 @@ from pyglet.window import key
 from pyglet.gl import *
 
 from game import batch, keys, window
-from overworld import cyan_tiles
 
 class Player(object):
     def __init__(self):
@@ -49,7 +48,7 @@ class Player(object):
 
     def update(self, dt):
         self.check_bounds()
-        self.check_collision()
+        #self.check_collision()
 
         if keys[key.W]:
             self.sprite.y += self.yvel * dt

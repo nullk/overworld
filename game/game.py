@@ -28,38 +28,38 @@ window.push_handlers(keys)
 
 # Game components
 
-import overworld
+import tilemap
 from player import Player
 from camera import Camera
 
 pyglet.clock.set_fps_limit(60)
 
-#bg = pyglet.image.load('assets/bg.jpg')
-#bg_sprite = pyglet.sprite.Sprite(bg, x=0, y=0, batch=batch, group=background)
-
 player = Player()
 player.load_sprite('assets/pug.png', 4, 3)
 
-cam = Camera()
+camera = Camera()
 
-overworld.gen_world(overworld._map, overworld.TILE_SIZE)
+palette = {
+    # green
+    0:(96, 155, 64),
+    # cyan
+    1:(30, 155, 64)
+}
+overworld = tilemap.Overworld(32, 'assets/textures.png', palette, 'assets/overworld.png')
+_map = overworld.read_map()
+overworld.gen_map(_map)
 
 # Handle window events
 
 @window.event
 def on_draw():
     window.clear()
-
     glClear(GL_COLOR_BUFFER_BIT)
 
-    glMatrixMode(GL_PROJECTION)
-    glLoadIdentity()
-    gluOrtho2D(0.0, window.width//2, 0.0, window.height//2)
-
-    cam.translate(player, window)
+    camera.translate(player, window)
 
     if keys[key.TAB]:
-        cam.panout(window)
+        camera.panout(player, window)
 
     batch.draw()
 
